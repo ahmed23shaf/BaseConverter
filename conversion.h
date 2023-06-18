@@ -1,12 +1,13 @@
 #ifndef CONVERSION_H
 #define CONVERSION_H
 
+#include <cmath>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <iostream>
 
-extern const std::map<std::string, char> binaryToHex;
-extern const std::map<char, std::string> hexLookUp;
+extern const std::unordered_map<std::string, char> binaryToHex;
+extern const std::unordered_map<char, std::string> hexLookUp;
 
 // INPUT: Reference to a binary string
 // OUTPUT: None
@@ -24,13 +25,19 @@ std::string decimalToTwosComplement(int input);
 // OUTPUT: A hexadecimal output (also as std::string)
 std::string twosComplementToHex(std::string input);
 
-int hexToTwosComplement(std::string input);
+// INPUT: A hexadecimal number assumed to be in Two's Complement
+// OUTPUT: Binary number as a string
+std::string hexToTwosComplement(std::string input);
 
+// INPUT: A hexadecimal in Two's Complement representation
+// OUTPUT: A decimal equivalent
 int hexToDecimal(std::string input);
 
+// INPUT: A decimal number
+// OUTPUT: In hexadecimal (Two's Complement representation)
 std::string decimalToHex(int input);
 
-int floatingToDecimal(int input);
+double floatingToDecimal(std::string input);
 
 int decimalToFloating(int input);
 
