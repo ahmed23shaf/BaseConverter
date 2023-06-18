@@ -1,6 +1,6 @@
 #include "conversion.h"
 
-const std::map<std::string, char> binaryToHex{
+const std::unordered_map<std::string, char> binaryToHex{
     {"0000", '0'},
     {"0001", '1'},
     {"0010", '2'},
@@ -19,7 +19,7 @@ const std::map<std::string, char> binaryToHex{
     {"1111", 'F'}
 };
 
-const std::map<char, std::string> hexToBinary{
+const std::unordered_map<char, std::string> hexToBinary{
     {'0', "0000"},
     {'1', "0001"},
     {'2', "0010"},
@@ -133,6 +133,7 @@ std::string twosComplementToHex(std::string input)
             input.insert(input.begin(), '1');
     }
 
+    // Go through 4 bits each iteration and insert a hex char
     for (int i = input.length()-4; i >= 0; i -= 4)
     {
         binarySequence = input.substr(i, 4);
@@ -144,28 +145,48 @@ std::string twosComplementToHex(std::string input)
     return hexString;
 }
 
-int hexToTwosComplement(std::string input)
+std::string hexToTwosComplement(std::string input)
 {
-    // Temporary return value
-    return 0;
+    std::string binaryString;
+
+    // Remove hex prefix
+    if (input[0] == '0' && input[1] == 'x')
+        input = input.substr(2);
+    else if (input[0] == 'x')
+        input = input.substr(1);
+
+    // Go through each hex char and add the corresponding binary sequence
+    for (int i = 0; i <= input.length()-1; i++)
+    {
+        binaryString.append(hexToBinary.at(input[i]));
+    }
+
+    return binaryString;
 }
 
 int hexToDecimal(std::string input)
 {
-    // Temporary return value
-    return 0;
+    // Convert to binary
+    std::string binaryString = hexToTwosComplement(input);
+
+    // Check sign
+    int sign = (binaryString[0] == 1) ? -1:1;
+
+    // If negative, negate
+    if (sign < 0)
+        TwosComplementOperation(binaryString);
+
+    return sign*twosComplementToDecimal(binaryString);
 }
 
 std::string decimalToHex(int input)
 {
-    // Temporary return value
-    return "";
+    return twosComplementToHex(decimalToTwosComplement(input));
 }
 
-int floatingToDecimal(int input)
+double floatingToDecimal(std::string input)
 {
-    // Temporary return value
-    return 0;
+    return 0.0;
 }
 
 int decimalToFloating(int input)
