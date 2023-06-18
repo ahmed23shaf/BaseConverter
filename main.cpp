@@ -8,8 +8,6 @@ std::string getUserInput();
 
 char getOperation();
 
-int convertInput(std::string input);
-
 void printResult(std::string result);
 
 int main()
@@ -57,7 +55,7 @@ int main()
     {
         std::string rawInput{getUserInput()};
 
-        cout << twosComplementToHex(rawInput);
+        cout << floatingToDecimal(rawInput);
         cout << '\n';
     }
 
@@ -96,9 +94,4 @@ char getOperation()
     cin >> operation;
 
     return operation;
-}
-
-int convertInput(std::string input)
-{
-    return std::stoi(input);
 }
