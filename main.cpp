@@ -72,7 +72,7 @@ std::string getUserInput()
     cout << '\n';
     cout << "Welcome to the Number Converter!" << '\n';
     cout << "Please enter a number to be converted: ";
-    cin >> input;
+    std::getline(std::cin, input);
     cout << '\n';
 
     return input;
