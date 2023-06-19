@@ -1,4 +1,5 @@
 #include "conversion.h"
+#define DEBUG
 
 const std::unordered_map<std::string, char> binaryToHex{
     {"0000", '0'},
@@ -67,6 +68,9 @@ void TwosComplementOperation(std::string& binaryInput)
 
 int twosComplementToDecimal(std::string input)
 {
+    // Remove all whitespace from input
+    input.erase(std::remove_if(input.begin(), input.end(), ::isspace), input.end());
+
     int endDecimal{};
     int sign = (input[0] == '1') ? -1:1;
     int i;
@@ -120,6 +124,9 @@ std::string decimalToTwosComplement(int input)
 
 std::string twosComplementToHex(std::string input)
 {
+    // Remove all whitespace from input
+    input.erase(std::remove_if(input.begin(), input.end(), ::isspace), input.end());
+
     std::string hexString;
     std::string binarySequence;
     int sign = (input[0] == '1') ? -1:1;
@@ -186,10 +193,32 @@ std::string decimalToHex(int input)
 
 double floatingToDecimal(std::string input)
 {
-    return 0.0;
+    // Remove all whitespace from input
+    input.erase(std::remove_if(input.begin(), input.end(), ::isspace), input.end());
+    int sign = (input[0] == '1') ? -1:1;
+
+    // b[8]:b[1] contain exponent bits
+    int expValue = twosComplementToDecimal(input.substr(1,8).insert(0, "0"));
+
+    // Account for the single-precision bias
+    int powerOf2Bias = static_cast<double>(expValue - 127);
+
+    // Convert the mantissa into a decimal
+    std::string mantissa = input.substr(9);
+    double decimal{};
+    int j{};
+
+    for (int i = 0; i < mantissa.length(); i++)
+    {
+        j--;
+        if (mantissa[i] == '1') 
+            decimal += pow(2.0, j);
+    }
+
+    return static_cast<double>(sign*(1.0+decimal)*pow(2.0, powerOf2Bias));
 }
 
-int decimalToFloating(int input)
+int decimalToFloating(double input)
 {
     // Temporary return value
     return 0;
