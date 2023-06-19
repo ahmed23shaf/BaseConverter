@@ -1,6 +1,7 @@
 #ifndef CONVERSION_H
 #define CONVERSION_H
 
+#include <algorithm>
 #include <cmath>
 #include <string>
 #include <unordered_map>
@@ -37,8 +38,12 @@ int hexToDecimal(std::string input);
 // OUTPUT: In hexadecimal (Two's Complement representation)
 std::string decimalToHex(int input);
 
+// INPUT: A binary number in IEEE-754 representation
+// OUTPUT: A decimal number
 double floatingToDecimal(std::string input);
 
-int decimalToFloating(int input);
+// INPUT: A decimal number (as a string)
+// OUTPUT: IN IEEE-754 standard representation of the bits
+int decimalToFloating(double input);
 
 #endif
