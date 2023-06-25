@@ -44,6 +44,6 @@ double floatingToDecimal(std::string input);
 
 // INPUT: A decimal number (as a string)
 // OUTPUT: IN IEEE-754 standard representation of the bits
-int decimalToFloating(double input);
+std::string decimalToFloating(double input);
 
 #endif
