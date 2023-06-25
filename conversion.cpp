@@ -1,5 +1,4 @@
 #include "conversion.h"
-#define DEBUG
 
 const std::unordered_map<std::string, char> binaryToHex{
     {"0000", '0'},
@@ -154,6 +153,9 @@ std::string twosComplementToHex(std::string input)
 
 std::string hexToTwosComplement(std::string input)
 {
+    // Remove all whitespace from input
+    input.erase(std::remove_if(input.begin(), input.end(), ::isspace), input.end());
+
     std::string binaryString;
 
     // Remove hex prefix
@@ -164,15 +166,16 @@ std::string hexToTwosComplement(std::string input)
 
     // Go through each hex char and add the corresponding binary sequence
     for (int i = 0; i <= input.length()-1; i++)
-    {
         binaryString.append(hexToBinary.at(input[i]));
-    }
 
     return binaryString;
 }
 
 int hexToDecimal(std::string input)
 {
+    // Remove all whitespace from input
+    input.erase(std::remove_if(input.begin(), input.end(), ::isspace), input.end());
+
     // Convert to binary
     std::string binaryString = hexToTwosComplement(input);
 
@@ -218,8 +221,75 @@ double floatingToDecimal(std::string input)
     return static_cast<double>(sign*(1.0+decimal)*pow(2.0, powerOf2Bias));
 }
 
-int decimalToFloating(double input)
+std::string decimalToFloating(double input)
 {
-    // Temporary return value
-    return 0;
+    // 0.0 edge case
+    if (input == 0.0)
+        return "000000000XXXXXXXXXXXXXXXXXXXXXXX";
+    // Sign
+    std::string sign_bit = (input > 0) ? "0":"1";
+
+    // Convert whole number to binary
+    std::string wholeNumber = decimalToTwosComplement(std::abs(static_cast<int>(input)));
+    wholeNumber.erase(wholeNumber.begin());
+    wholeNumber = (wholeNumber.empty()) ? "0":wholeNumber; 
+
+    // Convert decimal part to binary
+    double decimalPart = std::abs(input) - std::floor(std::abs(input));
+    std::string decimalNumber;
+
+    for (int i = 0; i < 33; i++)
+    {
+        decimalPart *= 2;
+        if (decimalPart >= 1.0)
+        {
+            decimalNumber += "1";
+            decimalPart = decimalPart - 1.0;
+            continue;
+        }
+        else if (decimalPart == 0.0)
+        {
+            decimalNumber += "0";
+            break;
+        }
+
+        decimalNumber += "0";
+    }
+
+    // Calculate exponent bits
+    int offset{-1};
+    if (wholeNumber == "0")
+    {
+        int k{};
+        char currentChar = decimalNumber[k];
+        while (currentChar == '0')
+        {
+            offset--;
+            k++;
+            currentChar = decimalNumber[k];
+        }
+    }
+    else 
+        offset = wholeNumber.length()-1;
+
+    int exp_power = 127 + offset;
+
+    std::string exp_bits = decimalToTwosComplement(exp_power);
+    if (exp_bits.length() > 8)
+        exp_bits.erase(exp_bits.begin());
+
+    // Extract mantissa bits
+    std::string mantissa;
+
+    if (wholeNumber == "0")
+        mantissa = decimalNumber.substr(std::abs(offset));
+    else
+        mantissa = wholeNumber.substr(1) + decimalNumber;
+
+    mantissa = mantissa.substr(0, 23);
+
+    while (mantissa.length() < 23)
+        mantissa += "0";
+
+    return sign_bit + "-" + exp_bits + "-" + mantissa;
 }
