@@ -3,15 +3,27 @@
 using std::cout;
 using std::cin;
 
+/**
+ * Retrieves user input from the console.
+ *
+ * @return The user input as a string.
+ */
 std::string getUserInput();
 
+/**
+ * Retrieves the desired conversion operation from the user.
+ *
+ * @return The operation code as a character.
+ */
 char getOperation();
 
+/**
+ * Pauses the program and waits for the user to press Enter to continue.
+ */
 void pressEnterToContinue();
 
 int main()
 {
-    bool loop = false;
     std::string rawInput = getUserInput();
     char operation = getOperation();
     std::string finalResult;
@@ -37,7 +49,7 @@ int main()
             finalResult = decimalToHex(std::stoi(rawInput));
             break;
         case '7': // IEEE 754 to Decimal
-            finalResult = floatingToDecimal(rawInput);
+            finalResult = std::to_string(floatingToDecimal(rawInput));
             break;
         case '8': // Decimal to IEEE 754
             finalResult = decimalToFloating(std::stod(rawInput));
@@ -46,6 +58,7 @@ int main()
             cout << "Invalid conversion..." << '\n';
             break;
     }
+
     cout << "************************************" << '\n'
          << finalResult << '\n'
          << "************************************" << '\n';
