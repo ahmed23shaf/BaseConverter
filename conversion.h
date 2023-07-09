@@ -10,40 +10,75 @@
 extern const std::unordered_map<std::string, char> binaryToHex;
 extern const std::unordered_map<char, std::string> hexLookUp;
 
-// INPUT: Reference to a binary string
-// OUTPUT: None
+/**
+ * Applies the Two's Complement operation to the given binary input.
+ *
+ * @param binaryInput The binary string to perform the operation on.
+ */
 void TwosComplementOperation(std::string& binaryInput);
 
-// INPUT:  A binary number assumed to be in Two's Complement  
-// OUTPUT: The converted number into decimal 
+/**
+ * Converts a binary number in Two's Complement representation to decimal.
+ *
+ * @param input The binary number as a string.
+ * @return The converted decimal number.
+ */
 int twosComplementToDecimal(std::string input);
 
-// INPUT: Decimal number (base 10)
-// OUTPUT: The number in binary (Two's Complement Representation)
+/**
+ * Converts a decimal number to binary in Two's Complement representation.
+ *
+ * @param input The decimal number to convert.
+ * @return The binary number as a string.
+ */
 std::string decimalToTwosComplement(int input);
 
-// INPUT: A binary number in Two's Complement (as a std::string)
-// OUTPUT: A hexadecimal output (also as std::string)
+/**
+ * Converts a binary number in Two's Complement representation to hexadecimal.
+ *
+ * @param input The binary number as a string.
+ * @return The hexadecimal representation as a string.
+ */
 std::string twosComplementToHex(std::string input);
 
-// INPUT: A hexadecimal number assumed to be in Two's Complement
-// OUTPUT: Binary number as a string
+/**
+ * Converts a hexadecimal number to binary in Two's Complement representation.
+ *
+ * @param input The hexadecimal number as a string.
+ * @return The binary number as a string.
+ */
 std::string hexToTwosComplement(std::string input);
 
-// INPUT: A hexadecimal in Two's Complement representation
-// OUTPUT: A decimal equivalent
+/**
+ * Converts a hexadecimal number in Two's Complement representation to decimal.
+ *
+ * @param input The hexadecimal number as a string.
+ * @return The converted decimal number.
+ */
 int hexToDecimal(std::string input);
 
-// INPUT: A decimal number
-// OUTPUT: In hexadecimal (Two's Complement representation)
+/**
+ * Converts a decimal number to hexadecimal in Two's Complement representation.
+ *
+ * @param input The decimal number to convert.
+ * @return The hexadecimal representation as a string.
+ */
 std::string decimalToHex(int input);
 
-// INPUT: A binary number in IEEE-754 representation
-// OUTPUT: A decimal number
+/**
+ * Converts a binary number in IEEE-754 representation to decimal.
+ *
+ * @param input The binary number as a string.
+ * @return The converted decimal number.
+ */
 double floatingToDecimal(std::string input);
 
-// INPUT: A decimal number (as a string)
-// OUTPUT: IN IEEE-754 standard representation of the bits
+/**
+ * Converts a decimal number to IEEE-754 binary representation.
+ *
+ * @param input The decimal number to convert.
+ * @return The IEEE-754 binary representation as a string.
+ */
 std::string decimalToFloating(double input);
 
 #endif
